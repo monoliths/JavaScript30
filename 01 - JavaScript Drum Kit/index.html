@@ -59,25 +59,35 @@
 
 <script>
 
-
-  function playSound(e) {
+  function playsound(e) {
+    // listen for keys, if a keyCode is bound to an audio attribute sore it in the audio variable
     const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    // get the key element
     const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
-    if (!audio) return; // stop the function from running all together
-    audio.currentTime = 0; // rewind to the start
+    // stop the function if a a key was pressed that has no audio attribute
+    if(!audio) return;
+    // rewind audio clip to the start.
+    audio.currentTime = 0;
     audio.play();
+    // add the playing css to the element that was triggered
     key.classList.add('playing');
   }
+
   function removeTransition(e) {
-    if (e.propertyName !== 'transform') return; // skip it if it's not a transform
-    this.classList.remove('playing');
+    // skip it if it is not a transform
+    if (e.propertyName !== 'transform') return;
+    // since a key element called this function, we can refer to it as this
+    this.classList.remove('playing')
   }
 
+  // add an event listening to all key elements for when have tranistioned after playing a drum loop
   const keys = document.querySelectorAll('.key');
   keys.forEach(key => key.addEventListener('transitionend', removeTransition));
-  window.addEventListener('keydown', playSound);
 
+  // list for the keydown event
+  window.addEventListener('keydown', playsound);
 </script>
+
 
 </body>
 </html>
